@@ -57,6 +57,7 @@ class RegistrationViewController: UIViewController {
         
         logoButton.customButton(setTitle: "Login", setTitleState: .normal, color: .gray, background: .white, radius: 20)
         logoButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        logoButton.addTarget(self, action: #selector(loginTap), for: .touchUpInside)
     }
     //MARK: - SetupFunction
     func setUp() {
@@ -82,6 +83,12 @@ class RegistrationViewController: UIViewController {
         
         subView.addSubview(passwordTextField)
         passwordTextField.anchor(top: nil, leading: subView.leadingAnchor, bottom:subView.bottomAnchor , trailing: subView.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 15, right: 15))
+    }
+    
+    @objc func loginTap() {
+//        let vc = NextPageViewController()
+//        self.navigationController?.pushViewController(vc, animated: true)
+        print("Firebase")
     }
 
 }
