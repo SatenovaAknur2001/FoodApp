@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class RegistrationViewController: UIViewController {
     //MARK: - Constants
@@ -41,6 +42,10 @@ class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         configureButton()
         setUp()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        logoTextField.becomeFirstResponder()
     }
     
     //MARK: - ConfigureFunction
