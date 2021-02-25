@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import FirebaseDatabase
+import Firebase
 class LoginViewController: UIViewController {
     //MARK: - Properties
     let logoImageView: UIImageView = {
@@ -65,7 +66,7 @@ class LoginViewController: UIViewController {
         configureViewComponents()
         
     }
-     //MARK: - Setup
+    //MARK: - Setup
     func configureViewComponents() {
         view.backgroundColor = UIColor.backgroundColor()
         navigationController?.navigationBar.isHidden = true
@@ -87,12 +88,27 @@ class LoginViewController: UIViewController {
         dontHaveAccountButton.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 32, bottom: 32, right: 32), size: .init(width: 0, height: 50))
     }
     //MARK: - Selectors
-         
+    
     @objc func handleLogin() {
-        print("handleLogin")
+        guard let  email = emailTextField.text else {return}
+        guard let  password = passwordTextField.text else {return}
+        
+        LogUserIn(withEmail: email, password: password)
     }
     
     @objc func handleShowSignUp () {
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
+    }
+    
+    //MARK: - API
+    func LogUserIn(withEmail email: String, password: String){
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            
+            if let error = error {
+                print("Failed to sign user up with error:", error.localizedDescription)
+                return
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }

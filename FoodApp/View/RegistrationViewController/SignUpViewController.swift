@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import FirebaseDatabase
+import Firebase
 class SignUpViewController: UIViewController {
     
     let logoImageView: UIImageView = {
@@ -105,10 +106,40 @@ class SignUpViewController: UIViewController {
     //MARK: - Selectors
     
     @objc func handleLogin() {
-        print("handleLogin")
+        guard let  email = emailTextField.text else {return}
+        guard let  password = passwordTextField.text else {return}
+        guard let  username = usernameTextField.text else {return}
+        
+        createUser(withEmail: email, password: password, username: username)
+        
     }
     
     @objc func handleShowSignUp () {
         navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - API
+    
+    func createUser(withEmail email: String, password: String, username: String){
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            
+            if let error = error {
+                print("Failed to sign user up with error:", error.localizedDescription)
+                return
+            }
+            
+            guard let uid = result?.user.uid else {return}
+            
+            let values = ["email": email, "username": username]
+            
+            Database.database().reference().child("users").child(uid).updateChildValues(values) { (error, ref) in
+                
+                if let error = error {
+                    print("Failed to update database values with error: ", error.localizedDescription)
+                    return
+                }
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
