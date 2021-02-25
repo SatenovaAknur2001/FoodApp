@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
     
     lazy var emailTextField: UITextField = {
         let tf = UITextField()
-        return tf.textField(withPlaceholder: "Email", isSecureTextEntry: true)
+        return tf.textField(withPlaceholder: "Email", isSecureTextEntry: false)
     }()
     
     lazy var passwordTextField: UITextField = {
